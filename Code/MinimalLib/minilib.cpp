@@ -293,7 +293,7 @@ std::string JSMol::get_descriptors() const {
 
 std::string JSMol::get_formula() const {
   if (!d_mol) return "";
-  return calcMolFormula(*d_mol);
+  return calcMolFormula(*d_mol, false, false);
 }
 
 std::string JSMol::get_morgan_fp(unsigned int radius,
