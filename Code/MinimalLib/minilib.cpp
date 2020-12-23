@@ -291,6 +291,11 @@ std::string JSMol::get_descriptors() const {
   return buffer.GetString();
 }
 
+std::string JSMol::get_formula() const {
+  if (!d_mol) return "";
+  return calcMolFormula(*d_mol);
+}
+
 std::string JSMol::get_morgan_fp(unsigned int radius,
                                  unsigned int fplen) const {
   if (!d_mol) return "";
@@ -454,24 +459,25 @@ std::string JSMol::condense_abbreviations_from_defs(
   Abbreviations::condenseMolAbbreviations(*d_mol, abbrevs, maxCoverage);
 }
 
-std::string JSMol::generate_aligned_coords(const JSMol &templateMol,bool useCoordGen){
-  if (!d_mol || !templateMol.d_mol || !templateMol.d_mol->getNumConformers()) return "";
+std::string JSMol::generate_aligned_coords(const JSMol &templateMol,
+                                           bool useCoordGen) {
+  if (!d_mol || !templateMol.d_mol || !templateMol.d_mol->getNumConformers())
+    return "";
 
 #ifdef RDK_BUILD_COORDGEN_SUPPORT
   bool oprefer = RDDepict::preferCoordGen;
   RDDepict::preferCoordGen = useCoordGen;
-#endif 
+#endif
   RDKit::ROMol *refPattern = nullptr;
   bool acceptFailure = true;
   int confId = -1;
-  RDDepict::generateDepictionMatching2DStructure(*d_mol, *templateMol.d_mol, confId,
-     refPattern, acceptFailure);
+  RDDepict::generateDepictionMatching2DStructure(
+      *d_mol, *templateMol.d_mol, confId, refPattern, acceptFailure);
 #ifdef RDK_BUILD_COORDGEN_SUPPORT
   RDDepict::preferCoordGen = oprefer;
 #endif
   return "";
 };
-
 
 std::string get_inchikey_for_inchi(const std::string &input) {
   return InchiToInchiKey(input);

@@ -110,6 +110,7 @@ EMSCRIPTEN_BINDINGS(RDKit_minimal) {
       .function("get_substruct_match", &JSMol::get_substruct_match)
       .function("get_substruct_matches", &JSMol::get_substruct_matches)
       .function("get_descriptors", &JSMol::get_descriptors)
+      .function("get_formula", &JSMol::get_formula)
       .function("get_morgan_fp",
                 select_overload<std::string() const>(&JSMol::get_morgan_fp))
       .function("get_morgan_fp",
@@ -125,9 +126,11 @@ EMSCRIPTEN_BINDINGS(RDKit_minimal) {
       .function("get_new_coords", select_overload<std::string(bool) const>(
                                       &JSMol::get_new_coords))
       .function("generate_aligned_coords",
-                select_overload<std::string(const JSMol &)>(&JSMol::generate_aligned_coords))
-      .function("generate_aligned_coords", select_overload<std::string(const JSMol &,bool)>(
-                                      &JSMol::generate_aligned_coords))
+                select_overload<std::string(const JSMol &)>(
+                    &JSMol::generate_aligned_coords))
+      .function("generate_aligned_coords",
+                select_overload<std::string(const JSMol &, bool)>(
+                    &JSMol::generate_aligned_coords))
       .function("condense_abbreviations",
                 select_overload<std::string()>(&JSMol::condense_abbreviations))
       .function("condense_abbreviations",
